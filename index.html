@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Saventia — L'intelligence artificielle pensée pour les organisations</title>
+  <meta name="description" content="Saventia accompagne les organisations dans l'integration strategique de l'intelligence artificielle." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --bg-900:#060B18; --bg-800:#0A1228; --bg-700:#0E1A38; --navy-ink:#0B1B3A;
+      --glass-panel:rgba(255,255,255,0.06); --glass-panel-hover:rgba(255,255,255,0.10);
+      --glass-strong:rgba(14,26,56,0.72); --glass-border:rgba(255,255,255,0.12);
+      --glass-border-strong:rgba(255,255,255,0.20);
+      --text-primary:rgba(255,255,255,0.92); --text-secondary:rgba(255,255,255,0.70); --text-muted:rgba(255,255,255,0.55);
+      --emerald-400:#34E0A8; --emerald-500:#10B981; --emerald-600:#0E9C73;
+      --blue-glow:#2D6BFF; --blue-soft:#5B8DEF;
+      --success:#34E0A8; --warning:#F5B544; --error:#F2766B;
+      --radius-sm:12px; --radius-md:16px; --radius-lg:20px; --radius-xl:28px;
+      --shadow-md:0 10px 30px rgba(0,0,0,.35); --shadow-lg:0 24px 50px rgba(0,0,0,.45);
+      --font-display:'Fraunces', Georgia, serif;
+      --font-body:'Manrope', system-ui, sans-serif;
+      --font-mono:'JetBrains Mono', ui-monospace, monospace;
+    }
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0; background:var(--bg-900); color:var(--text-primary);
+      font-family:var(--font-body); font-size:16px; line-height:1.65;
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+      overflow-x:clip;
+    }
+    body::before{ content:""; position:fixed; inset:0; z-index:-2;
+      background:
+        radial-gradient(820px 520px at 14% 8%, rgba(45,107,255,0.22), transparent 60%),
+        radial-gradient(680px 520px at 84% 12%, rgba(52,224,168,0.16), transparent 60%),
+        radial-gradient(900px 700px at 70% 92%, rgba(45,107,255,0.14), transparent 65%),
+        linear-gradient(180deg,#060B18 0%,#0A1228 55%,#05080F 100%); }
+    body::after{ content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.035;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+    /* cursor-tracking aurora glow */
+    #cursorGlow{ position:fixed; inset:0; z-index:-1; pointer-events:none; will-change:background;
+      --mx:72%; --my:14%;
+      background:
+        radial-gradient(300px circle at var(--mx) var(--my), rgba(52,224,168,0.18), transparent 60%),
+        radial-gradient(560px circle at var(--mx) var(--my), rgba(45,107,255,0.08), transparent 72%);
+      transition:opacity .6s ease; }
+    @media (hover: none){ #cursorGlow{ display:none; } }
+
+    @media (prefers-reduced-motion: no-preference){
+      body::before{ animation: aurora 34s ease-in-out infinite alternate; }
+    }
+    @keyframes aurora{
+      0%{ background-position: 0% 0%, 0% 0%, 0% 0%, 0 0; }
+      100%{ background-position: 6% 4%, -5% 3%, 4% -3%, 0 0; }
+    }
+
+    .eyebrow{ font-family:var(--font-body); font-weight:600; font-size:0.75rem;
+      letter-spacing:0.14em; text-transform:uppercase; color:var(--emerald-400); }
+
+    button{ font-family:var(--font-body); }
+    a{ color:var(--emerald-400); }
+    ::selection{ background:rgba(52,224,168,0.3); color:#fff; }
+    :focus-visible{ outline:none; box-shadow:0 0 0 3px rgba(52,224,168,.35); border-radius:8px; }
+    input::placeholder, textarea::placeholder{ color:var(--text-muted); }
+
+    .reveal{ animation: revealUp .7s cubic-bezier(.2,.7,.3,1) both; }
+    @keyframes revealUp{ from{ transform:translateY(18px); } to{ transform:none; } }
+
+    .orbit-spin{ animation: orbitSpin var(--dur, 48s) linear infinite; }
+    .orbit-spin[style*="--dir: -1"]{ animation-direction: reverse; }
+    @keyframes orbitSpin{ from{ transform: rotate(0deg); } to{ transform: rotate(360deg); } }
+    .node-pulse{ animation: nodePulse 3.4s ease-in-out var(--d, 0s) infinite; }
+    @keyframes nodePulse{ 0%,100%{ transform: scale(1); opacity:1; } 50%{ transform: scale(1.18); opacity:.78; } }
+    .ribbon-drift{ animation: ribbonDrift 22s ease-in-out infinite alternate; }
+    .ribbon-drift2{ animation: ribbonDrift 26s ease-in-out infinite alternate-reverse; }
+    @keyframes ribbonDrift{ from{ transform: translateX(-14px); } to{ transform: translateX(14px); } }
+
+    @media (prefers-reduced-motion: reduce){
+      .reveal{ animation:none !important; transform:none !important; }
+      .orbit-spin, .node-pulse, .ribbon-drift, .ribbon-drift2{ animation:none !important; }
+      html{ scroll-behavior:auto; }
+    }
+
+    image-slot{ background:linear-gradient(135deg, rgba(45,107,255,0.20), rgba(52,224,168,0.12));
+      border:1px solid var(--glass-border); }
+
+    @media (max-width: 960px){
+      .nav-links, .nav-cta{ display:none !important; }
+      .nav-burger{ display:grid !important; }
+      .footer-grid{ grid-template-columns: 1fr 1fr !important; }
+    }
+    @media (max-width: 900px){
+      .hero-split{ grid-template-columns: 1fr !important; }
+      .why-grid{ grid-template-columns: 1fr !important; gap:16px !important; }
+      .about-grid, .contact-grid{ grid-template-columns: 1fr !important; }
+      .cards-4{ grid-template-columns: repeat(2, 1fr) !important; }
+      .cards-ind{ grid-template-columns: repeat(2, 1fr) !important; }
+      .cards-why{ grid-template-columns: repeat(2, 1fr) !important; }
+      .method-line{ display:none !important; }
+    }
+    @media (max-width: 680px){
+      .cards-3{ grid-template-columns: 1fr !important; }
+      .cards-4{ grid-template-columns: 1fr !important; }
+      .cards-ind{ grid-template-columns: repeat(2, 1fr) !important; }
+      .cards-why{ grid-template-columns: 1fr !important; }
+      .field-row{ grid-template-columns: 1fr !important; }
+      .footer-grid{ grid-template-columns: 1fr !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="cursorGlow" aria-hidden="true"></div>
+  <div id="root"></div>
+
+  <script>
+    (function(){
+      var g = document.getElementById('cursorGlow');
+      if(!g || !window.matchMedia('(hover: hover)').matches) return;
+      var tx = innerWidth*0.72, ty = innerHeight*0.14;
+      var cx = tx, cy = ty, raf = 0;
+      function tick(){
+        cx += (tx - cx) * 0.08; cy += (ty - cy) * 0.08;
+        g.style.setProperty('--mx', cx + 'px');
+        g.style.setProperty('--my', cy + 'px');
+        if(Math.abs(tx-cx) > 0.5 || Math.abs(ty-cy) > 0.5){ raf = requestAnimationFrame(tick); }
+        else { raf = 0; }
+      }
+      addEventListener('pointermove', function(e){
+        tx = e.clientX; ty = e.clientY;
+        if(!raf) raf = requestAnimationFrame(tick);
+      }, { passive:true });
+      tick();
+    })();
+  </script>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <script src="saventia/image-slot.js"></script>
+
+  <script type="text/babel" src="saventia/content.jsx?v=7"></script>
+  <script type="text/babel" src="saventia/logo.jsx?v=7"></script>
+  <script type="text/babel" src="saventia/primitives.jsx?v=7"></script>
+  <script type="text/babel" src="saventia/layout.jsx?v=7"></script>
+  <script type="text/babel" src="saventia/artwork.jsx?v=7"></script>
+  <script type="text/babel" src="saventia/cards.jsx?v=7"></script>
+  <script type="text/babel" src="saventia/onepage.jsx?v=7"></script>
+  <script type="text/babel" src="saventia/tweaks-panel.jsx?v=7"></script>
+  <script type="text/babel" src="saventia/app.jsx?v=7"></script>
+
+  <script type="text/babel" data-presets="react">
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement(window.Site));
+  </script>
+</body>
+</html>
