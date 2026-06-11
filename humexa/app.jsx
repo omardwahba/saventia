@@ -5,9 +5,9 @@
   const { useTweaks, TweaksPanel, TweakSection, TweakRadio } = window;
 
   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-    "heroLayout": "split",
+    "heroLayout": "cinematic",
     "logoLockup": "inline",
-    "visual": "artwork"
+    "visual": "image"
   }/*EDITMODE-END*/;
 
   const NAV_OFFSET = 92;
@@ -196,13 +196,13 @@
         <TweaksPanel title="Tweaks">
           <TweakSection label={locale === 'en' ? 'Hero layout' : 'Disposition du hero'} />
           <TweakRadio label={locale === 'en' ? 'Layout' : 'Disposition'} value={tw.heroLayout}
-            options={['split', 'centered', 'minimal']} onChange={(v) => setTweak('heroLayout', v)} />
+            options={['cinematic', 'split', 'centered', 'minimal']} onChange={(v) => setTweak('heroLayout', v)} />
           <TweakSection label={locale === 'en' ? 'Imagery' : 'Visuels'} />
           <TweakRadio label={locale === 'en' ? 'Slots' : 'Emplacements'} value={tw.visual}
-            options={['artwork', 'photo']} onChange={(v) => setTweak('visual', v)} />
+            options={['image', 'artwork', 'photo']} onChange={(v) => setTweak('visual', v)} />
           <TweakSection label={locale === 'en' ? 'Logo lockup' : 'Logo'} />
           <TweakRadio label="Lockup" value={tw.logoLockup}
-            options={['inline', 'tile', 'wordmark']} onChange={(v) => setTweak('logoLockup', v)} />
+            options={['inline', 'tile', 'image', 'wordmark']} onChange={(v) => setTweak('logoLockup', v)} />
         </TweaksPanel>
       </React.Fragment>
     );
