@@ -1,6 +1,6 @@
 /* Saventia — single-page composition. All content as anchored sections. */
 (function () {
-  const { useState } = React;
+  const { useState, useEffect, useRef } = React;
   const { Container, Section, Reveal, Button, Icon, GlassCard, SectionHeader, Chip, PhotoSlot,
           ServiceCard, FeatureCard, StepCard, ArticleCard, CtaBand } = window;
 
@@ -28,16 +28,35 @@
     );
   }
 
+  function BrandImage({ src, alt, ratio = '4 / 5', minHeight = 380, style }) {
+    return (
+      <div style={{
+        position: 'relative', aspectRatio: ratio, minHeight, borderRadius: 24, overflow: 'hidden',
+        border: '1px solid var(--glass-border)', boxShadow: 'var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,0.08)',
+        background: 'var(--bg-800)', ...style,
+      }}>
+        <img src={src} alt={alt} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        <div aria-hidden="true" style={{ position: 'absolute', inset: 0, background: 'linear-gradient(180deg, rgba(6,11,24,0) 55%, rgba(6,11,24,0.5) 100%)', pointerEvents: 'none' }} />
+      </div>
+    );
+  }
+  window.BrandImage = BrandImage;
+
   function HeroVisual({ t, visual }) {
     return (
       <Reveal delay={200} style={{ position: 'relative' }}>
         <div style={{ position: 'relative', borderRadius: 'var(--radius-xl)' }}>
-          {visual === 'photo'
-            ? <PhotoSlot id="saventia-hero" alt={t.locale === 'en' ? 'Executive workshop: team in strategic discussion' : 'Atelier de direction : équipe en discussion stratégique'} radius={24} style={{ aspectRatio: '4 / 5', minHeight: 380 }} />
+          {visual === 'image'
+            ? <BrandImage src="humexa/assets/hero-human-ai.webp" alt={t.locale === 'en' ? 'A businesswoman and an AI presence connected by a glowing bridge of light' : 'Une dirigeante et une présence IA reliées par un pont de lumière'} ratio="4 / 5" minHeight={380} />
+            : visual === 'photo'
+            ? <PhotoSlot id="humexa-hero" alt={t.locale === 'en' ? 'Executive workshop: team in strategic discussion' : 'Atelier de direction : équipe en discussion stratégique'} radius={24} style={{ aspectRatio: '4 / 5', minHeight: 380 }} />
             : <window.HeroArt ratio="4 / 5" minHeight={380} />}
-          <GlassCard strong pad={20} style={{ position: 'absolute', left: -22, bottom: 28, width: 230, display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 500, fontSize: '2rem', lineHeight: 1, color: 'var(--emerald-400)' }}>4</span>
-            <span style={{ color: 'var(--text-secondary)', fontSize: '0.86rem', lineHeight: 1.4 }}>{t.locale === 'en' ? 'steps from diagnostic to durable transformation' : 'étapes, du diagnostic à la transformation durable'}</span>
+          <GlassCard strong pad={20} style={{ position: 'absolute', left: -22, bottom: 28, width: 252, display: 'flex', flexDirection: 'column', gap: 9 }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: '0.7rem', letterSpacing: '0.13em', textTransform: 'uppercase', color: 'var(--emerald-400)' }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--emerald-400)', boxShadow: '0 0 10px var(--emerald-400)' }} />
+              {t.locale === 'en' ? 'Our promise' : 'Notre promesse'}
+            </span>
+            <span style={{ fontFamily: 'var(--font-display)', fontWeight: 500, fontSize: '1.12rem', lineHeight: 1.28, letterSpacing: '-0.01em', color: 'var(--text-primary)' }}>{t.locale === 'en' ? 'Amplify your teams — never replace them.' : 'Amplifier vos équipes, jamais les remplacer.'}</span>
           </GlassCard>
           <div aria-hidden="true" style={{ position: 'absolute', inset: '-12% -10% auto auto', width: 180, height: 180, background: 'radial-gradient(circle, rgba(52,224,168,0.4), transparent 70%)', filter: 'blur(20px)', zIndex: -1 }} />
         </div>
@@ -45,15 +64,89 @@
     );
   }
 
+  /* ---------- CINEMATIC HERO (full-bleed, scroll-reactive) ---------- */
+  function CinematicHero({ t, scrollTo, visual }) {
+    const imgRef = useRef(null);
+    const contentRef = useRef(null);
+    const cueRef = useRef(null);
+    const useArt = visual === 'artwork';
+
+    useEffect(() => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      let raf = 0;
+      const onScroll = () => {
+        if (raf) return;
+        raf = requestAnimationFrame(() => {
+          raf = 0;
+          const y = window.scrollY;
+          const p = Math.min(1, y / window.innerHeight);
+          if (imgRef.current) imgRef.current.style.transform = `translate3d(0, ${y * 0.26}px, 0) scale(${1.04 + p * 0.04})`;
+          if (contentRef.current) {
+            contentRef.current.style.transform = `translate3d(0, ${y * -0.06}px, 0)`;
+            contentRef.current.style.opacity = String(Math.max(0, 1 - p * 1.15));
+          }
+          if (cueRef.current) cueRef.current.style.opacity = String(Math.max(0, 1 - p * 2.4));
+        });
+      };
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      return () => { window.removeEventListener('scroll', onScroll); if (raf) cancelAnimationFrame(raf); };
+    }, []);
+
+    return (
+      <section id="accueil" style={{ position: 'relative', minHeight: '100svh', marginTop: -92, display: 'flex', alignItems: 'flex-end', overflow: 'hidden', scrollMarginTop: 104 }}>
+        <div ref={imgRef} aria-hidden="true" style={{ position: 'absolute', inset: '-8% 0 0 0', zIndex: 0, willChange: 'transform' }}>
+          {useArt
+            ? <window.HeroArt ratio="16 / 9" minHeight="108vh" style={{ borderRadius: 0, border: 'none', height: '108vh' }} />
+            : <img src="humexa/assets/hero-human-ai.webp" alt={t.locale === 'en' ? 'A businesswoman and an AI presence connected by a glowing bridge of light' : 'Une dirigeante et une présence IA reliées par un pont de lumière'}
+                style={{ width: '100%', height: '112%', objectFit: 'cover', objectPosition: 'center 28%', display: 'block' }} />}
+        </div>
+        {/* scrims for legibility */}
+        <div aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none',
+          background: 'linear-gradient(180deg, rgba(6,11,24,0.80) 0%, rgba(6,11,24,0.20) 24%, rgba(6,11,24,0.05) 50%, rgba(6,11,24,0.70) 84%, var(--bg-900) 100%)' }} />
+        <div aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none',
+          background: 'linear-gradient(96deg, rgba(6,11,24,0.78) 0%, rgba(6,11,24,0.34) 40%, rgba(6,11,24,0) 66%)' }} />
+        <Container style={{ position: 'relative', zIndex: 2, width: '100%', paddingTop: 'clamp(132px, 20vh, 220px)', paddingBottom: 'clamp(72px, 11vh, 132px)' }}>
+          <div ref={contentRef} style={{ willChange: 'transform, opacity', maxWidth: 760, display: 'flex', flexDirection: 'column', gap: 22 }}>
+            <Reveal delay={0}><div className="eyebrow">{t.hero.eyebrow}</div></Reveal>
+            <Reveal delay={80} as="h1" style={{
+              fontFamily: 'var(--font-display)', fontWeight: 500, letterSpacing: '-0.022em',
+              fontSize: 'clamp(2.6rem, 5.6vw, 4.7rem)', lineHeight: 1.02, color: 'var(--text-primary)',
+              margin: 0, maxWidth: '16ch', textWrap: 'balance', textShadow: '0 2px 30px rgba(6,11,24,0.5)',
+            }}>{t.hero.title}</Reveal>
+            <Reveal delay={160} as="p" style={{
+              color: 'var(--text-primary)', opacity: 0.86, fontSize: 'clamp(1.04rem, 1.5vw, 1.24rem)', lineHeight: 1.6,
+              margin: 0, maxWidth: '54ch', textShadow: '0 1px 16px rgba(6,11,24,0.55)',
+            }}>{t.hero.sub}</Reveal>
+            <Reveal delay={240} style={{ display: 'flex', flexWrap: 'wrap', gap: 14, marginTop: 8 }}>
+              <Button variant="primary" onClick={() => scrollTo('contact')}>{t.hero.primary} <Icon name="arrow-right" size={17} color="#04130D" /></Button>
+              <Button variant="ghost" onClick={() => scrollTo('services')}>{t.hero.ghost}</Button>
+            </Reveal>
+          </div>
+        </Container>
+        <button ref={cueRef} onClick={() => scrollTo('services')} aria-label={t.locale === 'en' ? 'Scroll to content' : 'Défiler vers le contenu'}
+          style={{ position: 'absolute', zIndex: 2, left: '50%', bottom: 'clamp(20px, 3vh, 34px)', transform: 'translateX(-50%)',
+            display: 'grid', placeItems: 'center', width: 44, height: 44, borderRadius: 999, cursor: 'pointer',
+            background: 'var(--glass-strong)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)',
+            backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
+          <span className="hero-cue" style={{ display: 'inline-flex' }}><Icon name="chevron-down" size={20} color="var(--text-primary)" /></span>
+        </button>
+      </section>
+    );
+  }
+
   function Hero({ t, scrollTo, layout, visual }) {
+    if (layout === 'cinematic') return <CinematicHero t={t} scrollTo={scrollTo} visual={visual} />;
     if (layout === 'centered') {
       return (
         <Section pad="clamp(96px, 13vw, 168px)" id="accueil" style={anchor('accueil').style}>
           <Container narrow>
             <HeroText t={t} scrollTo={scrollTo} align="center" />
             <Reveal delay={320} style={{ marginTop: 'clamp(40px, 6vw, 72px)' }}>
-              {visual === 'photo'
-                ? <PhotoSlot id="saventia-hero-wide" alt={t.locale === 'en' ? 'Team in an organizational transformation workshop' : 'Équipe en atelier de transformation organisationnelle'} radius={24} style={{ aspectRatio: '16 / 7', minHeight: 240 }} />
+              {visual === 'image'
+                ? <window.BrandImage src="humexa/assets/hero-human-ai.webp" alt={t.locale === 'en' ? 'A businesswoman and an AI presence connected by a glowing bridge of light' : 'Une dirigeante et une présence IA reliées par un pont de lumière'} ratio="16 / 7" minHeight={260} />
+                : visual === 'photo'
+                ? <PhotoSlot id="humexa-hero-wide" alt={t.locale === 'en' ? 'Team in an organizational transformation workshop' : 'Équipe en atelier de transformation organisationnelle'} radius={24} style={{ aspectRatio: '16 / 7', minHeight: 240 }} />
                 : <window.RibbonArt ratio="16 / 7" minHeight={240} />}
             </Reveal>
           </Container>
@@ -146,7 +239,7 @@
 
   /* ---------- ONE PAGE ---------- */
   function OnePage({ t, scrollTo, heroLayout, visual }) {
-    const indIcons = ['radio-tower', 'factory', 'settings-2', 'store', 'briefcase', 'landmark', 'graduation-cap', 'heart-handshake'];
+    const indIcons = ['store', 'briefcase', 'landmark', 'graduation-cap', 'heart-handshake', 'factory', 'heart-pulse', 'leaf'];
     return (
       <React.Fragment>
         <Hero t={t} scrollTo={scrollTo} layout={heroLayout || 'split'} visual={visual} />
@@ -218,8 +311,10 @@
                 {t.about.intro.map((p, i) => <p key={i} style={{ color: i === 0 ? 'var(--text-primary)' : 'var(--text-secondary)', fontSize: i === 0 ? '1.15rem' : '1.0rem', lineHeight: 1.65, margin: 0, fontFamily: i === 0 ? 'var(--font-display)' : 'var(--font-body)', fontWeight: i === 0 ? 500 : 400, letterSpacing: i === 0 ? '-0.01em' : 0 }}>{p}</p>)}
               </Reveal>
               <Reveal delay={120}>
-                {visual === 'photo'
-                  ? <PhotoSlot id="saventia-about" alt={t.locale === 'en' ? 'Leadership meeting and strategic planning' : 'Réunion de leadership et planification stratégique'} radius={22} style={{ aspectRatio: '4 / 5', minHeight: 340 }} />
+                {visual === 'image'
+                  ? <window.BrandImage src="humexa/assets/hero-simplified.webp" alt={t.locale === 'en' ? 'A person and an AI presence meeting at a point of light' : 'Une personne et une présence IA se rejoignant en un point de lumière'} ratio="4 / 5" minHeight={340} />
+                  : visual === 'photo'
+                  ? <PhotoSlot id="humexa-about" alt={t.locale === 'en' ? 'Leadership meeting and strategic planning' : 'Réunion de leadership et planification stratégique'} radius={22} style={{ aspectRatio: '4 / 5', minHeight: 340 }} />
                   : <window.ConstellationArt ratio="4 / 5" minHeight={340} />}
               </Reveal>
             </div>

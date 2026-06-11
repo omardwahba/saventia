@@ -7,7 +7,10 @@
     return (
       <GlassCard pad={28} style={{ display: 'flex', flexDirection: 'column', gap: 16, height: '100%' }}>
         <IconTile name={service.icon} />
-        <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 500, fontSize: '1.22rem', lineHeight: 1.22, color: 'var(--text-primary)', margin: 0, letterSpacing: '-0.01em' }}>{service.title}</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 500, fontSize: '1.22rem', lineHeight: 1.22, color: 'var(--text-primary)', margin: 0, letterSpacing: '-0.01em' }}>{service.title}</h3>
+          {service.tagline && <span style={{ color: 'var(--emerald-400)', fontSize: '0.9rem', fontWeight: 600, lineHeight: 1.3 }}>{service.tagline}</span>}
+        </div>
         <p style={{ color: 'var(--text-secondary)', fontSize: '0.97rem', lineHeight: 1.6, margin: 0 }}>{service.desc}</p>
         {full && (
           <ul style={{ listStyle: 'none', padding: 0, margin: '4px 0 0', display: 'grid', gap: 10 }}>
