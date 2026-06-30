@@ -148,11 +148,42 @@
     );
   }
 
-  /* ---- Reveal (CSS entrance — robust: always ends visible) ---- */
-  function Reveal({ children, delay = 0, y = 16, as = 'div', style }) {
+  /* ---- Reveal (scroll-triggered entrance — robust: always ends visible) ----
+     Each element fades + slides up as it enters the viewport via
+     IntersectionObserver, so content eases in on scroll instead of all
+     animating at once on load. Fail-safe: reduced-motion, missing IO support,
+     restored scroll position, or anything already at/above the fold reveals
+     immediately, and the observer self-disconnects after the first reveal. */
+  function Reveal({ children, delay = 0, y = 18, as = 'div', style }) {
     const El = as;
+    const ref = useRef(null);
+    const [shown, setShown] = useState(false);
+
+    // useLayoutEffect so the in-view check runs before paint — no flash of
+    // hidden content for above-the-fold elements.
+    (React.useLayoutEffect || useEffect)(() => {
+      const el = ref.current;
+      if (!el) return;
+      const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce || typeof IntersectionObserver === 'undefined') { setShown(true); return; }
+      // Already in or above the viewport (initial paint or restored scroll) →
+      // reveal right away rather than waiting to scroll back to it.
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.92) { setShown(true); return; }
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some(e => e.isIntersecting)) { setShown(true); io.disconnect(); }
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      io.observe(el);
+      return () => io.disconnect();
+    }, []);
+
     return (
-      <El className="reveal" style={{ animationDelay: `${delay}ms`, ...style }}>{children}</El>
+      <El ref={ref} style={{
+        opacity: shown ? 1 : 0,
+        transform: shown ? 'none' : `translateY(${y}px)`,
+        transition: `opacity .6s ease ${delay}ms, transform .7s cubic-bezier(.2,.7,.3,1) ${delay}ms`,
+        willChange: 'opacity, transform',
+        ...style,
+      }}>{children}</El>
     );
   }
 
