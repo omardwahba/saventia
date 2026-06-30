@@ -3,29 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Humexa — La transformation IA, bâtie autour de l'humain</title>
-  <meta name="description" content="Humexa construit le lien entre vos équipes et l'intelligence artificielle — à travers la formation, le diagnostic organisationnel et l'implémentation." />
+  <title>PraxisAI — L'IA pratique au service de la transformation organisationnelle</title>
+  <meta name="description" content="PraxisAI aide les organisations à passer de la curiosité envers l'IA à des capacités concrètes, des pratiques responsables et des impacts mesurables — par la formation, le diagnostic et l'implémentation." />
 
-  <link rel="icon" type="image/svg+xml" href="humexa/assets/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="praxisai/assets/favicon.svg" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
 
   <style>
     :root{
-      --bg-900:#060B18; --bg-800:#0A1228; --bg-700:#0E1A38; --navy-ink:#0B1B3A;
-      --glass-panel:rgba(255,255,255,0.06); --glass-panel-hover:rgba(255,255,255,0.10);
-      --glass-strong:rgba(14,26,56,0.72); --glass-border:rgba(255,255,255,0.12);
-      --glass-border-strong:rgba(255,255,255,0.20);
-      --text-primary:rgba(255,255,255,0.92); --text-secondary:rgba(255,255,255,0.70); --text-muted:rgba(255,255,255,0.55);
-      --emerald-400:#34E0A8; --emerald-500:#10B981; --emerald-600:#0E9C73;
+      /* PraxisAI palette — modern, professional, trustworthy, clean.
+         #0D1B2A · #1B263B · #2563EB · #F1F5F9 · #E2E8F0 */
+      --bg-900:#0D1B2A; --bg-800:#122036; --bg-700:#1B263B; --navy-ink:#0D1B2A;
+      --glass-panel:rgba(255,255,255,0.05); --glass-panel-hover:rgba(255,255,255,0.09);
+      --glass-strong:rgba(13,27,42,0.74); --glass-border:rgba(255,255,255,0.12);
+      --glass-border-strong:rgba(91,141,239,0.45);
+      --text-primary:rgba(255,255,255,0.94); --text-secondary:rgba(226,232,240,0.74); --text-muted:rgba(226,232,240,0.52);
+      /* single accent — brand blue. (--emerald-* names retained as the accent scale.) */
+      --emerald-400:#5B8DEF; --emerald-500:#2563EB; --emerald-600:#1D4ED8;
       --blue-glow:#2D6BFF; --blue-soft:#5B8DEF;
-      /* warm "human" side accent — used for ambient glows + the Human ↔ IA mark */
-      --amber-300:#FFD68A; --amber-400:#F5B544; --amber-500:#E89A2C; --amber-600:#C9781A;
-      --success:#34E0A8; --warning:#F5B544; --error:#F2766B;
+      --success:#2563EB; --warning:#F5B544; --error:#F2766B;
+      --light-100:#F1F5F9; --light-200:#E2E8F0;
       --radius-sm:12px; --radius-md:16px; --radius-lg:20px; --radius-xl:28px;
-      --shadow-md:0 10px 30px rgba(0,0,0,.35); --shadow-lg:0 24px 50px rgba(0,0,0,.45);
+      --shadow-md:0 10px 30px rgba(5,12,24,.40); --shadow-lg:0 24px 50px rgba(5,12,24,.52);
       --font-display:'Fraunces', Georgia, serif;
       --font-body:'Manrope', system-ui, sans-serif;
       --font-mono:'JetBrains Mono', ui-monospace, monospace;
@@ -38,32 +40,32 @@
       -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
       overflow-x:clip;
     }
-    /* aurora field — warm human glow (left) meeting cool AI glow (right) */
+    /* clean cool field — navy gradient lit by quiet blue glows (no warm tones) */
     body::before{ content:""; position:fixed; inset:0; z-index:-2;
       background:
-        radial-gradient(760px 520px at 10% 10%, rgba(245,181,68,0.16), transparent 60%),
-        radial-gradient(820px 520px at 88% 14%, rgba(45,107,255,0.22), transparent 60%),
-        radial-gradient(680px 520px at 62% 6%, rgba(52,224,168,0.12), transparent 62%),
-        radial-gradient(900px 700px at 72% 92%, rgba(45,107,255,0.14), transparent 65%),
-        linear-gradient(180deg,#060B18 0%,#0A1228 55%,#05080F 100%); }
-    body::after{ content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.035;
+        radial-gradient(820px 540px at 85% 10%, rgba(37,99,235,0.20), transparent 60%),
+        radial-gradient(700px 520px at 10% 16%, rgba(45,107,255,0.13), transparent 62%),
+        radial-gradient(680px 520px at 60% 4%, rgba(91,141,239,0.10), transparent 62%),
+        radial-gradient(940px 720px at 72% 96%, rgba(37,99,235,0.11), transparent 66%),
+        linear-gradient(180deg,#0D1B2A 0%,#122036 56%,#0A1422 100%); }
+    body::after{ content:""; position:fixed; inset:0; z-index:-1; pointer-events:none; opacity:.03;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
-    /* cursor-tracking aurora glow */
+    /* cursor-tracking glow */
     #cursorGlow{ position:fixed; inset:0; z-index:-1; pointer-events:none; will-change:background;
       --mx:72%; --my:14%;
       background:
-        radial-gradient(300px circle at var(--mx) var(--my), rgba(52,224,168,0.16), transparent 60%),
+        radial-gradient(300px circle at var(--mx) var(--my), rgba(37,99,235,0.16), transparent 60%),
         radial-gradient(560px circle at var(--mx) var(--my), rgba(45,107,255,0.08), transparent 72%);
       transition:opacity .6s ease; }
     @media (hover: none){ #cursorGlow{ display:none; } }
 
     @media (prefers-reduced-motion: no-preference){
-      body::before{ animation: aurora 34s ease-in-out infinite alternate; }
+      body::before{ animation: aurora 38s ease-in-out infinite alternate; }
     }
     @keyframes aurora{
       0%{ background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%, 0 0; }
-      100%{ background-position: 5% 3%, -4% 3%, 3% -3%, 4% -3%, 0 0; }
+      100%{ background-position: 4% 3%, -3% 2%, 3% -2%, 3% -3%, 0 0; }
     }
 
     .eyebrow{ font-family:var(--font-body); font-weight:600; font-size:0.75rem;
@@ -71,8 +73,8 @@
 
     button{ font-family:var(--font-body); }
     a{ color:var(--emerald-400); }
-    ::selection{ background:rgba(52,224,168,0.3); color:#fff; }
-    :focus-visible{ outline:none; box-shadow:0 0 0 3px rgba(52,224,168,.35); border-radius:8px; }
+    ::selection{ background:rgba(37,99,235,0.32); color:#fff; }
+    :focus-visible{ outline:none; box-shadow:0 0 0 3px rgba(37,99,235,.45); border-radius:8px; }
     input::placeholder, textarea::placeholder{ color:var(--text-muted); }
 
     .reveal{ animation: revealUp .7s cubic-bezier(.2,.7,.3,1) both; }
@@ -96,7 +98,7 @@
       html{ scroll-behavior:auto; }
     }
 
-    image-slot{ background:linear-gradient(135deg, rgba(45,107,255,0.20), rgba(245,181,68,0.12));
+    image-slot{ background:linear-gradient(135deg, rgba(37,99,235,0.20), rgba(13,27,42,0.6));
       border:1px solid var(--glass-border); }
 
     @media (max-width: 960px){
@@ -111,6 +113,7 @@
       .cards-4{ grid-template-columns: repeat(2, 1fr) !important; }
       .cards-ind{ grid-template-columns: repeat(2, 1fr) !important; }
       .cards-why{ grid-template-columns: repeat(2, 1fr) !important; }
+      .cards-5{ grid-template-columns: repeat(3, 1fr) !important; }
       .method-line{ display:none !important; }
     }
     @media (max-width: 680px){
@@ -118,6 +121,7 @@
       .cards-4{ grid-template-columns: 1fr !important; }
       .cards-ind{ grid-template-columns: repeat(2, 1fr) !important; }
       .cards-why{ grid-template-columns: 1fr !important; }
+      .cards-5{ grid-template-columns: repeat(2, 1fr) !important; }
       .field-row{ grid-template-columns: 1fr !important; }
       .footer-grid{ grid-template-columns: 1fr !important; }
     }
@@ -152,17 +156,17 @@
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
-  <script src="humexa/image-slot.js"></script>
+  <script src="praxisai/image-slot.js"></script>
 
-  <script type="text/babel" src="humexa/content.jsx?v=2"></script>
-  <script type="text/babel" src="humexa/logo.jsx?v=2"></script>
-  <script type="text/babel" src="humexa/primitives.jsx?v=2"></script>
-  <script type="text/babel" src="humexa/layout.jsx?v=2"></script>
-  <script type="text/babel" src="humexa/artwork.jsx?v=2"></script>
-  <script type="text/babel" src="humexa/cards.jsx?v=2"></script>
-  <script type="text/babel" src="humexa/onepage.jsx?v=2"></script>
-  <script type="text/babel" src="humexa/tweaks-panel.jsx?v=2"></script>
-  <script type="text/babel" src="humexa/app.jsx?v=2"></script>
+  <script type="text/babel" src="praxisai/content.jsx?v=1"></script>
+  <script type="text/babel" src="praxisai/logo.jsx?v=1"></script>
+  <script type="text/babel" src="praxisai/primitives.jsx?v=1"></script>
+  <script type="text/babel" src="praxisai/layout.jsx?v=1"></script>
+  <script type="text/babel" src="praxisai/artwork.jsx?v=1"></script>
+  <script type="text/babel" src="praxisai/cards.jsx?v=1"></script>
+  <script type="text/babel" src="praxisai/onepage.jsx?v=1"></script>
+  <script type="text/babel" src="praxisai/tweaks-panel.jsx?v=1"></script>
+  <script type="text/babel" src="praxisai/app.jsx?v=1"></script>
 
   <script type="text/babel" data-presets="react">
     const root = ReactDOM.createRoot(document.getElementById('root'));

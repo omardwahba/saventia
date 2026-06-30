@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" role="img" aria-label="PraxisAI">
+  <line x1="32" y1="18" x2="41.5" y2="18" stroke="#2563EB" stroke-width="2.4" stroke-linecap="round" opacity="0.9"></line>
+  <path d="M16 41 L16 9 Q 32 9 32 18 Q 32 27 17.5 27" stroke="#0D1B2A" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round"></path>
+  <g>
+    <circle cx="16" cy="9" r="2.5" fill="#2563EB" stroke="#0D1B2A" stroke-width="1.1"></circle>
+    <circle cx="32" cy="18" r="2.5" fill="#2563EB" stroke="#0D1B2A" stroke-width="1.1"></circle>
+    <circle cx="17.5" cy="27" r="2.5" fill="#2563EB" stroke="#0D1B2A" stroke-width="1.1"></circle>
+    <circle cx="16" cy="41" r="2.5" fill="#2563EB" stroke="#0D1B2A" stroke-width="1.1"></circle>
+    <circle cx="42" cy="18" r="2.9" fill="#5B8DEF"></circle>
+  </g>
+</svg>
