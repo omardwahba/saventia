@@ -180,6 +180,22 @@
     useEffect(() => { document.documentElement.lang = locale; }, [locale]);
     useEffect(() => { if (window.lucide) window.lucide.createIcons(); }, [locale, tw, active]);
 
+    // Dismiss the full-page loading screen once the app has mounted and fonts
+    // are ready, so the whole page appears at once (not progressively). The
+    // inline fallback in index.html clears it regardless if this never fires.
+    useEffect(() => {
+      const done = () => window.__praxisReady && window.__praxisReady();
+      const fonts = document.fonts && document.fonts.ready;
+      if (fonts) {
+        let settled = false;
+        const fire = () => { if (settled) return; settled = true; requestAnimationFrame(done); };
+        fonts.then(fire);
+        setTimeout(fire, 1200); // cap the wait so a slow font fetch can't stall reveal
+      } else {
+        requestAnimationFrame(done);
+      }
+    }, []);
+
     const go = useCallback((id) => { smoothTo(id); }, []);
 
     // scroll-spy
